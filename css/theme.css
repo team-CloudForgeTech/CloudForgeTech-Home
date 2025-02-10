@@ -1,0 +1,178 @@
+/* 主题切换按钮 */
+.theme-switcher {
+    background: transparent;
+    border: none;
+    padding: 0.5rem;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    display: flex;
+    align-items: center;
+    color: var(--text-color);
+}
+
+.theme-switcher:hover {
+    background: var(--hover-bg);
+}
+
+.theme-switcher .moon {
+    display: none;
+}
+
+[data-theme="dark"] .theme-switcher .sun {
+    display: none;
+}
+
+[data-theme="dark"] .theme-switcher .moon {
+    display: block;
+}
+
+/* 联系方式标题 */
+.contact-section .section-title {
+    text-align: center;
+    margin-bottom: 3rem;
+    font-size: 2.2rem;
+    position: relative;
+}
+
+.contact-section .section-title::after {
+    content: "";
+    position: absolute;
+    bottom: -1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: var(--primary);
+    border-radius: 2px;
+}
+
+/* 联系卡片标题 */
+.contact-card-title {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 1.5rem;
+    color: var(--primary);
+}
+
+.contact-card-title .icon {
+    width: 24px;
+    height: 24px;
+}
+
+/* 亮色模式 */
+[data-theme="light"] {
+    --card-bg: #ffffff;
+    --footer-bg: #f8f9fa;
+    --text-color: #1a202c;
+}
+
+/* 暗色模式 */
+[data-theme="dark"] {
+    --card-bg: #4e7fe1;
+    --footer-bg: #1a202c;
+    --text-color: #e2e8f0;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --card-bg: rgba(44, 98, 186, 0.8);
+    }
+}
+
+:root {
+    /* 基础色新版 */
+    --primary: #5B8FF9;  /* 科技蓝 */
+    --secondary: #61DAFB; /* 渐变蓝 */
+    --accent: #F6C445;   /* 活力黄 */
+
+    /* 卡片配色 */
+    --card-bg: rgba(255,255,255,0.95);
+    --card-border: rgba(0,0,0,0.08);
+    --card-shadow: 0 12px 32px -8px rgba(0,0,0,0.05);
+}
+
+[data-theme="dark"] {
+    --primary: #7FA8FF;
+    --secondary: #82E6FF;
+    --accent: #FFD56B;
+
+    --card-bg: rgba(30,30,30,0.95);
+    --card-border: rgba(255,255,255,0.1);
+    --card-shadow: 0 12px 32px -8px rgba(0,0,0,0.3);
+}
+
+/* 启用渐变变量 */
+:root {
+    --primary-rgb: 91, 143, 249;
+    --secondary-rgb: 97, 218, 251;
+
+    /* 兼容Safari的渐变回退 */
+    --gradient-fallback: rgb(var(--primary-rgb));
+}
+
+[data-theme="dark"] {
+    --primary-rgb: 127, 168, 255;
+    --secondary-rgb: 130, 230, 255;
+}
+
+@supports (-webkit-backdrop-filter: blur(1px)) {
+    .project-card, .team-card {
+        -webkit-backdrop-filter: blur(8px);
+    }
+}
+
+/* Light Theme */
+:root {
+    --card-bg: #f8fafc;  /* 从纯白改为浅灰 */
+    --card-border: rgba(0,0,0,0.06);
+    --footer-bg: #ffffff;
+    --text-muted: #64748b;
+    --border-color: #e2e8f0;
+}
+
+[data-theme="dark"] {
+    --card-bg: rgba(30, 41, 59, 0.6);
+    --card-border: rgba(255,255,255,0.08);
+    --footer-bg: #1e293b;
+    --text-muted: #94a3b8;
+    --border-color: #334155;
+}
+
+/* 更好的卡片渐变 */
+.project-card:hover {
+    background: linear-gradient(
+            to bottom right,
+            var(--card-bg),
+            rgba(255,255,255,0.6)
+    );
+}
+
+[data-theme="dark"] .project-card:hover {
+    background: linear-gradient(
+            to bottom right,
+            var(--card-bg),
+            rgba(255,255,255,0.02)
+    );
+}
+
+:root {
+    --primary-hover: #4a7ff5; /* 按钮悬停色 */
+}
+
+[data-theme="dark"] {
+    --primary-hover: #94b3ff;
+}
+
+:root {
+    --footer-bg: #ffffff;
+    --border-color: rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="dark"] {
+    --footer-bg: #1e293b;
+    --border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* CloudForgeTech_Home-v1.0 */
