@@ -1,45 +1,80 @@
 'use strict';
 
+// ================ 模块导入 ================
 import { initScroll } from './components/smooth-scroll.js';
 
-// 主题管理模块
+// ================ 全局状态管理 ================
+const AppState = {
+    initialized: false,
+    aosLoaded: window.AOS ? true : false,
+    components: {
+        theme: false,
+        scroll: false,
+        aos: false,
+        serviceWorker: false
+    }
+};
+
+// ================ 主题管理模块 ================
 const ThemeManager = (() => {
     const STORAGE_KEY = 'theme';
     let currentTheme = 'light';
 
     const applyTheme = (theme) => {
-        document.documentElement.setAttribute('data-theme', theme);
-        currentTheme = theme;
-        localStorage.setItem(STORAGE_KEY, theme);
-        AOS.refresh(); // 刷新动画
+        try {
+            document.documentElement.setAttribute('data-theme', theme);
+            currentTheme = theme;
+            localStorage.setItem(STORAGE_KEY, theme);
+
+            // 安全刷新AOS
+            if (AppState.aosLoaded && typeof AOS.refresh === 'function') {
+                AOS.refresh();
+            }
+        } catch (error) {
+            console.error('主题切换失败:', error);
+        }
     };
 
     const init = () => {
-        const savedTheme = localStorage.getItem(STORAGE_KEY);
-        const systemIsDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (AppState.components.theme) return;
 
-        const initialTheme = savedTheme || (systemIsDark ? 'dark' : 'light');
-        applyTheme(initialTheme);
+        try {
+            const savedTheme = localStorage.getItem(STORAGE_KEY);
+            const systemIsDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const initialTheme = savedTheme || (systemIsDark ? 'dark' : 'light');
 
-        document.getElementById('theme-toggle').addEventListener('click', () => {
-            applyTheme(currentTheme === 'dark' ? 'light' : 'dark');
-        });
+            applyTheme(initialTheme);
+
+            const toggleBtn = document.getElementById('theme-toggle');
+            if (toggleBtn) {
+                toggleBtn.addEventListener('click', () => {
+                    applyTheme(currentTheme === 'dark' ? 'light' : 'dark');
+                });
+            }
+
+            AppState.components.theme = true;
+        } catch (error) {
+            console.error('主题系统初始化失败:', error);
+        }
     };
 
     return { init };
 })();
 
-// 滚动管理模块
+// ================ 滚动管理模块 ================
 const ScrollManager = (() => {
     const SCROLL_THRESHOLD = 200;
     let backToTopBtn = null;
 
     const handleScroll = () => {
+        if (!backToTopBtn) return;
+
         const shouldShow = window.scrollY > SCROLL_THRESHOLD;
         backToTopBtn.style.display = shouldShow ? 'flex' : 'none';
-        setTimeout(() => {
+
+        requestAnimationFrame(() => {
             backToTopBtn.classList.toggle('visible', shouldShow);
-        }, 10);
+        });
     };
 
     const scrollToTop = () => {
@@ -50,73 +85,134 @@ const ScrollManager = (() => {
     };
 
     const init = () => {
-        backToTopBtn = document.getElementById('back-to-top');
-        window.addEventListener('scroll', handleScroll);
-        backToTopBtn.addEventListener('click', scrollToTop);
+        if (AppState.components.scroll) return;
+
+        try {
+            backToTopBtn = document.getElementById('back-to-top');
+            if (backToTopBtn) {
+                window.addEventListener('scroll', handleScroll);
+                backToTopBtn.addEventListener('click', scrollToTop);
+                handleScroll(); // 初始状态检查
+            }
+            AppState.components.scroll = true;
+        } catch (error) {
+            console.error('滚动系统初始化失败:', error);
+        }
     };
 
     return { init };
 })();
 
-// 服务进程管理
+// ================ AOS动画管理 ================
+const AOSManager = {
+    init: () => {
+        if (AppState.components.aos || !AppState.aosLoaded) return;
+
+        try {
+            AOS.init({
+                duration: 800,
+                once: true,
+                easing: 'ease-out-back',
+                disable: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+                initClassName: 'aos-init',
+                animatedClassName: 'aos-animate'
+            });
+            AppState.components.aos = true;
+        } catch (error) {
+            console.error('AOS初始化失败:', error);
+        }
+    },
+    refresh: () => {
+        if (AppState.aosLoaded && AppState.components.aos) {
+            AOS.refresh();
+        }
+    }
+};
+
+// ================ 服务进程管理 ================
 const ServiceWorkerManager = (() => {
     const register = () => {
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker
-                .register('/sw.js')
-                .then(registration => {
-                    console.log('ServiceWorker 注册成功:', registration.scope);
-                })
-                .catch(error => {
-                    console.warn('ServiceWorker 注册失败:', error);
-                });
-        }
+        if (AppState.components.serviceWorker || !('serviceWorker' in navigator)) return;
+
+        navigator.serviceWorker
+            .register('/sw.js')
+            .then(registration => {
+                console.log('ServiceWorker 注册成功:', registration.scope);
+                AppState.components.serviceWorker = true;
+            })
+            .catch(error => {
+                console.warn('ServiceWorker 注册失败:', error);
+            });
     };
 
     return { register };
 })();
 
-// 主初始化函数
-const initApp = () => {
-    // 1. 主题系统
-    ThemeManager.init();
+// ================ 主初始化函数 ================
+export const initApp = () => {
+    if (AppState.initialized) {
+        console.warn('应用已初始化，跳过重复操作');
+        return;
+    }
 
-    // 2. 滚动系统
-    ScrollManager.init();
-    initScroll(); // 平滑滚动
+    // 初始化顺序控制
+    try {
+        ThemeManager.init();
+        ScrollManager.init();
+        initScroll(); // 平滑滚动
 
-    // 3. 初始化动画
-    AOS.init({
-        duration: 800,
-        once: true,
-        easing: 'ease-out-back',
-        disable: window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    });
+        // 动态检查AOS状态
+        const aosCheckInterval = setInterval(() => {
+            if (window.AOS) {
+                clearInterval(aosCheckInterval);
+                AppState.aosLoaded = true;
+                AOSManager.init();
+            }
+        }, 100);
 
-    // 4. 服务进程
-    ServiceWorkerManager.register();
+        // 延迟初始化服务进程
+        setTimeout(ServiceWorkerManager.register, 2000);
 
-    // 5. 其他初始化...
-    console.log('应用初始化完成 ✅');
+        // 页脚观察器
+        const footerObserver = new IntersectionObserver(
+            (entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            },
+            { threshold: 0.1 }
+        );
+        document.querySelectorAll('.site-footer').forEach(el => {
+            footerObserver.observe(el);
+        });
+
+        AppState.initialized = true;
+        console.log('应用初始化完成 ✅');
+    } catch (error) {
+        console.error('应用初始化失败:', error);
+    }
 };
 
-// 观察页脚进入视口
-const footerObserver = new IntersectionObserver(
-    (entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-            }
-        });
+// ================ 浏览器环境自动启动 ================
+if (typeof window !== 'undefined' && !window.__NO_AUTO_INIT__) {
+    document.addEventListener('DOMContentLoaded', () => {
+        // 兼容非模块环境
+        if (!AppState.initialized) {
+            initApp();
+        }
+    });
+}
+
+// ================ 全局访问点 ================
+window.__CloudForgeTech = {
+    reinit: () => {
+        AppState.initialized = false;
+        initApp();
     },
-    { threshold: 0.1 }
-);
+    refreshAOS: AOSManager.refresh,
+    getState: () => ({ ...AppState })
+};
 
-document.querySelectorAll('.site-footer').forEach(el => {
-    footerObserver.observe(el);
-});
-
-// 启动应用
-document.addEventListener('DOMContentLoaded', initApp);
-
-// CloudForgeTech_Home-v1.0
+// CloudForgeTech_Home-v1.1

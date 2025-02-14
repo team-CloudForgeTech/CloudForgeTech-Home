@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>友情链接 - CloudForgeTech</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/theme.css">
+    <link rel="icon" type="image/png" href="https://ooo.0x0.ooo/2025/02/14/OGQ2uF.png">
+</head>
+<body>
+<!-- 完整导航栏 -->
+<header class="sticky-header">
+    <nav class="container">
+        <ul class="branding">
+            <li>
+                <img src="https://ooo.0x0.ooo/2025/02/14/OGQ2uF.png" alt="CloudForgeTech" width="50" height="50">
+                <strong>CloudForgeTech</strong>
+                <span class="subtitle">云锻开源社区</span>
+            </li>
+        </ul>
+        <ul class="nav-menu">
+            <li><a href="index.html" class="nav-link">首页</a></li>
+            <li><a href="index.html#projects" class="nav-link">项目</a></li>
+            <li><a href="index.html#team" class="nav-link">团队</a></li>
+            <li><a href="links.html" class="nav-link active">友链</a></li>
+            <!-- 完整主题切换按钮 -->
+            <li>
+                <button id="theme-toggle" class="theme-switcher" aria-label="切换主题">
+                    <svg class="sun" width="20" height="20" viewBox="0 0 24 24">
+                        <path fill="currentColor" d="M12 18a6 6 0 1 1 0-12 6 6 0 0 1 0 12zm0-2a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM11 1h2v3h-2V1zm0 19h2v3h-2v-3zM3.515 4.929l1.414-1.414L7.05 5.636 5.636 7.05 3.515 4.93zM16.95 18.364l1.414-1.414 2.121 2.121-1.414 1.414-2.121-2.121zm2.121-14.85l1.414 1.415-2.121 2.121-1.414-1.414 2.121-2.121zM5.636 16.95l1.414 1.414-2.121 2.121-1.414-1.414 2.121-2.121z"/>
+                    </svg>
+                    <svg class="moon" width="20" height="20" viewBox="0 0 24 24">
+                        <path fill="currentColor" d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1-8.313-12.454z"/>
+                    </svg>
+                </button>
+            </li>
+        </ul>
+    </nav>
+</header>
+
+<!-- 主体内容 -->
+<main class="container">
+    <section id="friends" class="friend-section">
+        <h2 class="section-title" data-aos="fade-up">战略合作伙伴</h2>
+        <div class="friend-container">
+            <!-- 👇 友链卡片模板（重要结构标记） -->
+            <article class="friend-card" data-aos="zoom-in">
+                <div class="friend-header">
+                    <img src="https://zuotiya.com/logo.ico"
+                         alt="合作伙伴logo"
+                         class="friend-logo"
+                         loading="lazy"
+                         width="80"
+                         height="80">
+                    <div class="friend-info">
+                        <h3>海口美兰做题鸭网络科技工作室</h3>
+                        <div class="friend-meta">
+                            <span class="tech-tag">商业工作室</span>
+                        </div>
+                    </div>
+                </div>
+                <p class="friend-desc">
+                    用心做项目，良心做团队
+                </p>
+                <a href="https://zuotiya.com"
+                   class="button friend-link"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   aria-label="访问官网">
+                    前往官网 →
+                </a>
+            </article>
+
+            <!-- 重复更多卡片... -->
+        </div>
+    </section>
+</main>
+
+<!-- 确保页脚结构正确 -->
+<footer class="site-footer">
+    <div class="container">
+        <div class="footer-body">
+            <div class="footer-brand">
+                <img src="https://ooo.0x0.ooo/2025/02/14/OGQ2uF.png" alt="Logo" width="60">
+                <div class="footer-stats">
+                    <span>访问：<em id="page_pv">-</em></span>
+                    <span>访客：<em id="page_uv">-</em></span>
+                </div>
+            </div>
+            <div class="footer-nav">
+                <div class="footer-col">
+                    <h5 class="footer-title">产品</h5>
+                    <a href="#projects">项目总览</a>
+                    <a href="#roadmap">开发路线</a>
+                </div>
+                <div class="footer-col">
+                    <h5 class="footer-title">资源</h5>
+                    <a href="https://example.com/docs">文档中心</a>
+                    <a href="https://example.com/blog">技术博客</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>©2024-2025 CloudForgeTech ·
+                <a href="http://beian.miit.gov.cn">没资质 所以不备案</a>
+            </p>
+        </div>
+    </div>
+</footer>
+
+<!-- 关键优化：追加脚本初始化 -->
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script defer src="//webviso.yestool.org/js/index.min.js"></script>
+<script type="module">
+    // 确保AOS加载完成
+    let aosReady = new Promise(resolve => {
+        if(window.AOS) return resolve();
+        window.AOS = {
+            on: (evt, cb) => evt === 'load' && cb()
+        };
+    });
+
+    aosReady.then(async () => {
+        try {
+            const { initApp } = await import('./js/main.js');
+            window.__mainAppInit = initApp;
+            initApp();
+        } catch(err) {
+            console.error('模块加载失败:', err);
+        }
+    });
+</script>
+</body>
+</html>
+
+<!-- CloudForgeTech_Home-v1.1 -->

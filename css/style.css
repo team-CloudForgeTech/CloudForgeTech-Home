@@ -481,4 +481,114 @@ a:hover::after {
     display: inline-block;
 }
 
-/* CloudForgeTech_Home-v1.0 */
+/* 友情链接专区 */
+.friend-section {
+    padding: 4rem 0;
+}
+
+.friend-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.friend-card {
+    background: var(--card-bg);
+    border-radius: 1.25rem;
+    padding: 1.5rem;
+    transition: transform 0.3s ease;
+    border: 1px solid var(--card-border);
+}
+
+.friend-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px -5px rgba(0,0,0,0.1);
+}
+
+.friend-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.2rem;
+}
+
+.friend-logo {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    object-fit: contain;
+    background: var(--card-bg);
+    padding: 5px;
+    box-shadow: var(--card-shadow);
+}
+
+.friend-info h3 {
+    margin: 0;
+    font-size: 1.4rem;
+    color: var(--primary);
+}
+
+.friend-desc {
+    color: var(--text-muted);
+    line-height: 1.6;
+    min-height: 4em;
+}
+
+.friend-link {
+    display: block;
+    width: fit-content;
+    margin-top: 1.2rem;
+    padding: 0.7rem 1.2rem !important;
+}
+
+@media (max-width: 768px) {
+    .friend-container {
+        grid-template-columns: 1fr;
+    }
+
+    .friend-header {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
+/* 主题切换按钮定位修正 */
+.theme-switcher {
+    position: relative;
+    z-index: 9999;
+    background: var(--card-bg) !important;
+    border-radius: 50% !important;
+    width: 40px;
+    height: 40px;
+    padding: 8px !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* 页脚强制显示 */
+.site-footer {
+    display: block !important;
+    opacity: 1 !important;
+    transform: none !important;
+    margin-top: 4rem;
+}
+
+/* 修复AOS动画层级 */
+[data-aos] {
+    z-index: 1 !important;
+}
+
+/* 防止图片延迟加载闪烁 */
+img[loading="lazy"] {
+    opacity: 1 !important;
+    transition: none !important;
+}
+
+/* 修复AOS层级 */
+[data-aos] {
+    will-change: transform, opacity;
+    backface-visibility: hidden;
+    z-index: 10;
+}
+
+/* CloudForgeTech_Home-v1.1 */
