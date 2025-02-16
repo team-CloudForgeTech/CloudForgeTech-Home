@@ -6,8 +6,8 @@
     <title>友情链接 - CloudForgeTech</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
     <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
-    <link rel="stylesheet" href="./css/style.css">
-    <link rel="stylesheet" href="./css/theme.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/theme.css">
     <link rel="icon" type="image/png" href="https://ooo.0x0.ooo/2025/02/14/OGQ2uF.png">
 </head>
 <body>
@@ -22,10 +22,10 @@
             </li>
         </ul>
         <ul class="nav-menu">
-            <li><a href="index.html" class="nav-link">首页</a></li>
-            <li><a href="index.html#projects" class="nav-link">项目</a></li>
-            <li><a href="index.html#team" class="nav-link">团队</a></li>
-            <li><a href="links.html" class="nav-link active">友链</a></li>
+            <li><a href="../index.html" class="nav-link">首页</a></li>
+            <li><a href="../index.html#projects" class="nav-link">项目</a></li>
+            <li><a href="../index.html#team" class="nav-link">团队</a></li>
+            <li><a href="index.html" class="nav-link active">友链</a></li>
             <!-- 完整主题切换按钮 -->
             <li>
                 <button id="theme-toggle" class="theme-switcher" aria-label="切换主题">
@@ -260,7 +260,7 @@
 
     aosReady.then(async () => {
         try {
-            const { initApp } = await import('./js/main.js');
+            const { initApp } = await import('../js/main.js');
             window.__mainAppInit = initApp;
             initApp();
         } catch(err) {
