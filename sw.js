@@ -22,4 +22,4 @@ self.addEventListener('fetch', (event) => {
     );
 });
 
-// CloudForgeTech_Home-v1.0
+// CloudForgeTech_Home-v1.2

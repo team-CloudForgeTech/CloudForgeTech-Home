@@ -83,23 +83,105 @@ const ScrollManager = (() => {
             behavior: 'smooth'
         });
     };
+    // 处理导航栏下拉菜单
+    const initDropdowns = () => {
+        const dropdowns = document.querySelectorAll('.dropdown');
+        
+        dropdowns.forEach(dropdown => {
+            const link = dropdown.querySelector('.nav-link');
+            const content = dropdown.querySelector('.dropdown-content');
+            
+            if (link && content) {
+                // 移除所有现有的事件监听器
+                const newLink = link.cloneNode(true);
+                link.parentNode.replaceChild(newLink, link);
+                
+                // 添加新的点击事件
+                newLink.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    // 关闭其他下拉菜单
+                    dropdowns.forEach(other => {
+                        if (other !== dropdown) {
+                            const otherContent = other.querySelector('.dropdown-content');
+                            if (otherContent) {
+                                otherContent.classList.remove('show');
+                            }
+                        }
+                    });
+                    
+                    // 切换当前下拉菜单
+                    content.classList.toggle('show');
+                });
+
+                // 为下拉菜单中的链接添加点击事件
+                content.querySelectorAll('a').forEach(item => {
+                    item.addEventListener('click', () => {
+                        content.classList.remove('show');
+                    });
+                });
+            }
+        });
+        
+        // 点击外部关闭所有下拉菜单
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.dropdown')) {
+                document.querySelectorAll('.dropdown-content').forEach(content => {
+                    content.classList.remove('show');
+                });
+            }
+        });
+    };
+
+    // 处理下拉菜单点击
+    const handleDropdownClick = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        const dropdown = e.currentTarget.closest('.dropdown');
+        const content = dropdown.querySelector('.dropdown-content');
+        
+        // 关闭其他下拉菜单
+        document.querySelectorAll('.dropdown-content.show').forEach(item => {
+            if (item !== content) {
+                item.classList.remove('show');
+            }
+        });
+        
+        // 切换当前下拉菜单
+        content.classList.toggle('show');
+    };
+
+    // 处理点击外部区域
+    const handleOutsideClick = (e) => {
+        if (!e.target.closest('.dropdown')) {
+            document.querySelectorAll('.dropdown-content.show').forEach(content => {
+                content.classList.remove('show');
+            });
+        }
+    };
 
     const init = () => {
         if (AppState.components.scroll) return;
-
+    
         try {
             backToTopBtn = document.getElementById('back-to-top');
             if (backToTopBtn) {
                 window.addEventListener('scroll', handleScroll);
                 backToTopBtn.addEventListener('click', scrollToTop);
-                handleScroll(); // 初始状态检查
+                handleScroll();
             }
+            
+            // 初始化下拉菜单
+            initDropdowns();
+            
             AppState.components.scroll = true;
         } catch (error) {
             console.error('滚动系统初始化失败:', error);
         }
     };
-
+    
     return { init };
 })();
 
@@ -107,7 +189,7 @@ const ScrollManager = (() => {
 const AOSManager = {
     init: () => {
         if (AppState.components.aos || !AppState.aosLoaded) return;
-
+    
         try {
             AOS.init({
                 duration: 800,
@@ -133,7 +215,7 @@ const AOSManager = {
 const ServiceWorkerManager = (() => {
     const register = () => {
         if (AppState.components.serviceWorker || !('serviceWorker' in navigator)) return;
-
+    
         navigator.serviceWorker
             .register('/sw.js')
             .then(registration => {
@@ -144,7 +226,7 @@ const ServiceWorkerManager = (() => {
                 console.warn('ServiceWorker 注册失败:', error);
             });
     };
-
+    
     return { register };
 })();
 
@@ -215,4 +297,4 @@ window.__CloudForgeTech = {
     getState: () => ({ ...AppState })
 };
 
-// CloudForgeTech_Home-v1.1
+// CloudForgeTech_Home-v1.2

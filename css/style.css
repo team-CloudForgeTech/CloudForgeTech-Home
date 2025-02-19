@@ -590,5 +590,71 @@ img[loading="lazy"] {
     backface-visibility: hidden;
     z-index: 10;
 }
+/* 导航菜单的二级菜单样式 */
+.nav-menu .dropdown {
+    position: relative;
+}
 
-/* CloudForgeTech_Home-v1.1 */
+.nav-menu .dropdown-content {
+    display: none;
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--background-color);
+    min-width: 180px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    padding: 8px 0;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.nav-menu .dropdown-content::before {
+    content: '';
+    position: absolute;
+    top: -6px;
+    left: 50%;
+    transform: translateX(-50%) rotate(45deg);
+    width: 12px;
+    height: 12px;
+    background: var(--background-color);
+    border-left: 1px solid var(--border-color);
+    border-top: 1px solid var(--border-color);
+}
+
+.nav-menu .dropdown-content.show {
+    display: block;
+    opacity: 1;
+    top: calc(100% + 5px);
+}
+
+.nav-menu .dropdown-content a {
+    color: var(--text-color);
+    padding: 10px 20px;
+    text-decoration: none;
+    display: block;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+    font-size: 0.95em;
+}
+
+.nav-menu .dropdown-content a:hover {
+    background-color: var(--hover-color);
+    transform: translateX(5px);
+}
+
+/* 深色模式适配 */
+[data-theme="dark"] .nav-menu .dropdown-content {
+    background: var(--background-color);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .nav-menu .dropdown-content::before {
+    background: var(--background-color);
+    border-color: var(--border-color);
+}
+
+/* CloudForgeTech_Home-v1.2 */
