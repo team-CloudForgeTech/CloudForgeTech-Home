@@ -1,0 +1,103 @@
+.changelog-container {
+    padding-top: 4rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.timeline-wrapper {
+    position: relative;
+    padding-left: 2rem;
+}
+
+.timeline-wrapper::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 2px;
+    background: var(--border-color);
+}
+
+.timeline-item {
+    position: relative;
+    padding-bottom: 3rem;
+}
+
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -2.4rem;
+    top: 0.5rem;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--primary);
+    border: 2px solid var(--background-color);
+}
+
+.timeline-meta {
+    margin-bottom: 1rem;
+}
+
+.timeline-date {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.version {
+    font-size: 1.5rem;
+    margin: 0.5rem 0;
+    color: var(--text-color);
+}
+
+.update-card {
+    background: var(--card-bg);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    box-shadow: var(--card-shadow);
+}
+
+.update-tag {
+    display: inline-block;
+    padding: 0.3rem 1rem;
+    border-radius: 2rem;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+.major .update-tag {
+    background: var(--primary-light);
+    color: var(--primary);
+}
+
+.feature .update-tag {
+    background: var(--success-light);
+    color: var(--success);
+}
+
+.update-card h3 {
+    margin-bottom: 1rem;
+    color: var(--text-color);
+}
+
+.update-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.update-card li {
+    position: relative;
+    padding-left: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-muted);
+}
+
+.update-card li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: var(--primary);
+}
